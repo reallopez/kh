@@ -119,7 +119,8 @@ function setupMain(){
             `[data-testid="exercise-next-question"]`, 
             `._1udzurba`,
             `._awve9b`,
-            `_yxvt1q8`,
+            `._yxvt1q8`,
+            `._lvas5s6´,
         ];
         
         khanwareDominates = true;
