@@ -112,6 +112,7 @@ function setupMain(){
     })();
 
     /* AutoAnswer */
+    /* AutoAnswer */
     (function () {
         const baseSelectors = [
             `[data-testid="choice-icon__library-choice-icon"]`,
@@ -120,9 +121,11 @@ function setupMain(){
             `._1udzurba`,
             `._awve9b`,
             `._yxvt1q8`,
-            `._lvas5s6´,
+            `._lvas5s6`,
         ];
-        
+        //...
+    })();
+            
         khanwareDominates = true;
         
         (async () => { 
