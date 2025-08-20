@@ -112,33 +112,61 @@ function setupMain(){
     })();
 
     /* AutoAnswer */
-    /* AutoAnswer */
     (function () {
         const baseSelectors = [
+            // Seletor para a resposta correta em exercícios de múltipla escolha
             `[data-testid="choice-icon__library-choice-icon"]`,
+            
+            // Seletor para o botão "Verificar"
             `[data-testid="exercise-check-answer"]`, 
-            `[data-testid="exercise-next-question"]`, 
+            
+            // Seletor para os botões "Continuar"
             `._1udzurba`,
             `._awve9b`,
-            `._yxvt1q8`,
-            `._lvas5s6`,
         ];
-        //...
-    })();
-            
-        khanwareDominates = true;
-        
-        (async () => { 
-            while (khanwareDominates) {
-                const selectorsToCheck = [...baseSelectors];
     
-                for (const q of selectorsToCheck) {
-                    findAndClickBySelector(q);
-                    if (document.querySelector(q+"> div") && document.querySelector(q+"> div").innerText === "Mostrar resumo") {
-                        sendToast("🎉 Exercício concluído!", 3000);
-                        playAudio("https://r2.e-z.host/4d0a0bea-60f8-44d6-9e74-3032a64a9f32/4x5g14gj.wav");
+        const nextQuestionSelector = `[data-testid="exercise-next-question"]`;
+        const nextRecommendationSelector = `._yxvt1q8`;
+    
+        khanwareDominates = true;
+    
+        (async () => {
+            while (khanwareDominates) {
+                let nextStepTaken = false;
+    
+                // Tenta clicar nos seletores básicos
+                for (const q of baseSelectors) {
+                    if (document.querySelector(q)) {
+                        findAndClickBySelector(q);
+                        nextStepTaken = true;
+                        // Toca o som de conclusão se o botão "Mostrar resumo" aparecer
+                        if (document.querySelector(q + "> div") && document.querySelector(q + "> div").innerText === "Mostrar resumo") {
+                            sendToast("🎉 Exercício concluído!", 3000);
+                            playAudio("https://r2.e-z.host/4d0a0bea-60f8-44d6-9e74-3032a64a9f32/4x5g14gj.wav");
+                        }
+                        break; 
                     }
                 }
+    
+                // Se um passo básico já foi clicado, espere um pouco para o próximo
+                if (nextStepTaken) {
+                    await delay(800);
+                }
+    
+                // Tenta clicar no botão "Próxima questão"
+                if (document.querySelector(nextQuestionSelector)) {
+                    findAndClickBySelector(nextQuestionSelector);
+                    nextStepTaken = true;
+                }
+    
+                // Se um passo foi tomado ou se "Próxima questão" foi clicado, tenta "Próxima recomendação"
+                if (nextStepTaken) {
+                    await delay(800);
+                    if (document.querySelector(nextRecommendationSelector)) {
+                        findAndClickBySelector(nextRecommendationSelector);
+                    }
+                }
+    
                 await delay(800);
             }
         })();
